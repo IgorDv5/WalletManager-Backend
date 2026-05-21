@@ -9,7 +9,7 @@ public record UserUpdateDTO(
 		String nome,
 		
 		@Email(message = "Email Invalido")
-		@NotBlank(message = "Campo Nome é Obrigatorio")
+		@NotBlank(message = "Campo Email é Obrigatorio")
 		String email
 		) {
 

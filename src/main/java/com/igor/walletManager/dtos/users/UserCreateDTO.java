@@ -10,7 +10,7 @@ public record UserCreateDTO(
 		String nome,
 		
 		@Email(message = "Email Invalido")
-		@NotBlank(message = "Campo Nome é Obrigatorio")
+		@NotBlank(message = "Campo Email é Obrigatorio")
 		String email,
 		@NotBlank(message = "Campo Senha é Obrigatorio")
 		@Size(min = 6 , message = "Senha Não preenche Requesitos Mínimos")
