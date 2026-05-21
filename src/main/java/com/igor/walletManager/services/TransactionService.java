@@ -1,6 +1,9 @@
 package com.igor.walletManager.services;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,9 +11,11 @@ import org.springframework.stereotype.Service;
 import com.igor.walletManager.dtos.transactions.TransactionCreateDTO;
 import com.igor.walletManager.dtos.transactions.TransactionResponseDTO;
 import com.igor.walletManager.dtos.transactions.TransactionUpdateDTO;
+import com.igor.walletManager.dtos.transactions.summaries.TransactionSummaryDTO;
 import com.igor.walletManager.entity.Category;
 import com.igor.walletManager.entity.Transaction;
 import com.igor.walletManager.entity.User;
+import com.igor.walletManager.entity.enums.TransactionType;
 import com.igor.walletManager.exceptions.custom.ResourceNotFoundException;
 import com.igor.walletManager.mappers.TransactionMapper;
 import com.igor.walletManager.repositories.CategoryRepository;
@@ -82,6 +87,37 @@ public class TransactionService {
 		}
 
 		transactionRepository.save(transaction);
+	}
+	
+
+	public TransactionSummaryDTO getSummary(Long userId, LocalDate start, LocalDate end) {
+
+	    LocalDateTime startDateTime = start.atStartOfDay();
+	    LocalDateTime endDateTime = end.atTime(LocalTime.MAX);
+
+	    List<Transaction> transactions =
+	            transactionRepository.findByUserIdAndDateBetweenAndDeletedAtIsNull(
+	                    userId,
+	                    startDateTime,
+	                    endDateTime
+	            );
+
+	    BigDecimal income = BigDecimal.ZERO;
+	    BigDecimal expense = BigDecimal.ZERO;
+
+	    for (Transaction t : transactions) {
+	        if (t.getType() == TransactionType.INCOME) {
+	            income = income.add(t.getAmount());
+	        } else {
+	            expense = expense.add(t.getAmount());
+	        }
+	    }
+
+	    return new TransactionSummaryDTO(
+	            income,
+	            expense,
+	            income.subtract(expense)
+	    );
 	}
 
 	// *****************

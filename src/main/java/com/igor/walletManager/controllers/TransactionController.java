@@ -1,5 +1,6 @@
 package com.igor.walletManager.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.igor.walletManager.dtos.transactions.TransactionCreateDTO;
 import com.igor.walletManager.dtos.transactions.TransactionResponseDTO;
 import com.igor.walletManager.dtos.transactions.TransactionUpdateDTO;
+import com.igor.walletManager.dtos.transactions.summaries.TransactionSummaryDTO;
 import com.igor.walletManager.services.TransactionService;
 
 import jakarta.validation.Valid;
@@ -56,5 +59,18 @@ public class TransactionController {
 		service.toggleSoftDelete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/summary")
+	public ResponseEntity<TransactionSummaryDTO> summaryByPeriod(
+	        @RequestParam Long userId,
+	        @RequestParam LocalDate start,
+	        @RequestParam LocalDate end
+	) {
+	    return ResponseEntity.ok(
+	            service.getSummary(userId, start, end)
+	    );
+	}
+
+	    
 
 }
