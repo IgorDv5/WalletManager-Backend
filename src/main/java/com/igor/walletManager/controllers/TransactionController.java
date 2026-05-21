@@ -51,7 +51,7 @@ public class TransactionController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PatchMapping("/{id}")
+	@PatchMapping("/{id}/toggle")
 	public ResponseEntity<Void> toggleSoftDelete(@PathVariable Long id){
 		service.toggleSoftDelete(id);
 		return ResponseEntity.noContent().build();

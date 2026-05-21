@@ -48,9 +48,9 @@ public class UserController {
 		return ResponseEntity.ok(service.update(id, dto));
 	}
 	
-	@PatchMapping("/toggle/{id}")
-	public ResponseEntity<Void> toggleUserDeleted(@PathVariable Long id){
-		service.toggleUserDeleted(id);
+	@PatchMapping("/{id}/toggle")
+	public ResponseEntity<Void> toggleSoftDelete(@PathVariable Long id){
+		service.toggleSoftDelete(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	

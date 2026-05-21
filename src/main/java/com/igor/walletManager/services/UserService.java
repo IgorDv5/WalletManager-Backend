@@ -55,7 +55,7 @@ public class UserService {
 		return mapper.toDTO(userUpdated);
 	}
 	
-	public void toggleUserDeleted(Long id) {
+	public void toggleSoftDelete(Long id) {
 		User user = findEntityById(id);
 		
 		if(user.getDeletedAt() == null) {
