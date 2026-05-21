@@ -48,7 +48,7 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private UserRole role;
+	private UserRole role = UserRole.USER;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Category> categories = new ArrayList<>();
