@@ -44,7 +44,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
-	private LocalDateTime deletedAt;
+	private LocalDateTime deletedAt = null;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

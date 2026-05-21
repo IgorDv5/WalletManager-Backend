@@ -25,7 +25,6 @@ public class Category {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
-	@Column(nullable = false)
 	private User user;
 
 }
