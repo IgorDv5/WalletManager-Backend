@@ -6,4 +6,6 @@ import com.igor.walletManager.entity.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
+	boolean existsByCategoryId(Long categoryId);
+	
 }
