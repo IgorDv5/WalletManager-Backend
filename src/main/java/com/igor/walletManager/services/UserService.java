@@ -9,6 +9,8 @@ import com.igor.walletManager.dtos.users.UserCreateDTO;
 import com.igor.walletManager.dtos.users.UserUpdateDTO;
 import com.igor.walletManager.dtos.users.UserResponseDTO;
 import com.igor.walletManager.entity.User;
+import com.igor.walletManager.exceptions.custom.ConflictException;
+import com.igor.walletManager.exceptions.custom.ResourceNotFoundException;
 import com.igor.walletManager.mappers.UserMapper;
 import com.igor.walletManager.repositories.UserRepository;
 
@@ -41,8 +43,8 @@ public class UserService {
 
 		if (!user.getEmail().equals(dto.email())) {
 
-			if (repository.existsByEmail(dto.email())) {
-				throw new RuntimeException("Email Já Cadastrado no Sistema");
+			if (repository.existsByEmailIgnoreCase(dto.email())) {
+				throw new ConflictException("Email Já Cadastrado no Sistema");
 			}
 			user.setEmail(dto.email());
 		}
@@ -69,7 +71,7 @@ public class UserService {
 
 	private User findEntityById(Long id) {
 		return repository.findById(id)
-				.orElseThrow(() -> new RuntimeException("\"Usuario com Id:\"+id+\"Não Encontrado\""));
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario Com Id:"+id+" Não Encontrado") );
 	}
 
 }
