@@ -10,9 +10,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "categories")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Category {
 
 	@Id
@@ -25,6 +35,6 @@ public class Category {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
-	private User user;
+	private User user; 
 
 }
