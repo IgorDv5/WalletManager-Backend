@@ -50,7 +50,6 @@ public class Transaction {
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
-	@Column(nullable = false)
 	private Category category;
 	
 	@ManyToOne
