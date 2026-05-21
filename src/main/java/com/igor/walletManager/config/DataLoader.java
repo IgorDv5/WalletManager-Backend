@@ -56,27 +56,35 @@ public class DataLoader implements CommandLineRunner {
 
 	       categoryRepository.saveAll(List.of(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10));
 	        
-	       Transaction t1 = new Transaction(null, BigDecimal.valueOf(100), "Market", LocalDateTime.now(), TransactionType.EXPENSE, null, c1, u1);
-	        Transaction t2 = new Transaction(null, BigDecimal.valueOf(200), "Uber", LocalDateTime.now(), TransactionType.EXPENSE, null, c2, u2);
-	        Transaction t3 = new Transaction(null, BigDecimal.valueOf(300), "Doctor", LocalDateTime.now(), TransactionType.EXPENSE, null, c3, u3);
-	        Transaction t4 = new Transaction(null, BigDecimal.valueOf(400), "Course", LocalDateTime.now(), TransactionType.EXPENSE, null, c4, u4);
-	        Transaction t5 = new Transaction(null, BigDecimal.valueOf(500), "Cinema", LocalDateTime.now(), TransactionType.EXPENSE, null, c5, u5);
-	        Transaction t6 = new Transaction(null, BigDecimal.valueOf(600), "Rent", LocalDateTime.now(), TransactionType.EXPENSE, null, c6, u6);
-	        Transaction t7 = new Transaction(null, BigDecimal.valueOf(700), "Clothes", LocalDateTime.now(), TransactionType.EXPENSE, null, c7, u7);
-	        Transaction t8 = new Transaction(null, BigDecimal.valueOf(800), "Salary", LocalDateTime.now(), TransactionType.INCOME, null, c8, u8);
-	        Transaction t9 = new Transaction(null, BigDecimal.valueOf(900), "Stocks", LocalDateTime.now(), TransactionType.INCOME, null, c9, u9);
-	        Transaction t10 = new Transaction(null, BigDecimal.valueOf(1000), "Bonus", LocalDateTime.now(), TransactionType.INCOME, null, c10, u10);
+	       Transaction t1 = new Transaction(null, BigDecimal.valueOf(100), "Market U1", LocalDateTime.now(), TransactionType.EXPENSE, null, c1, u1);
+	       Transaction t2 = new Transaction(null, BigDecimal.valueOf(500), "Salary U1", LocalDateTime.now(), TransactionType.INCOME, null, c1, u1);
 
-	        Transaction t11 = new Transaction(null, BigDecimal.valueOf(110), "Food 2", LocalDateTime.now(), TransactionType.EXPENSE, null, c1, u1);
-	        Transaction t12 = new Transaction(null, BigDecimal.valueOf(220), "Uber 2", LocalDateTime.now(), TransactionType.EXPENSE, null, c2, u2);
-	        Transaction t13 = new Transaction(null, BigDecimal.valueOf(330), "Doctor 2", LocalDateTime.now(), TransactionType.EXPENSE, null, c3, u3);
-	        Transaction t14 = new Transaction(null, BigDecimal.valueOf(440), "Course 2", LocalDateTime.now(), TransactionType.EXPENSE, null, c4, u4);
-	        Transaction t15 = new Transaction(null, BigDecimal.valueOf(550), "Cinema 2", LocalDateTime.now(), TransactionType.EXPENSE, null, c5, u5);
-	        Transaction t16 = new Transaction(null, BigDecimal.valueOf(660), "Rent 2", LocalDateTime.now(), TransactionType.EXPENSE, null, c6, u6);
-	        Transaction t17 = new Transaction(null, BigDecimal.valueOf(770), "Clothes 2", LocalDateTime.now(), TransactionType.EXPENSE, null, c7, u7);
-	        Transaction t18 = new Transaction(null, BigDecimal.valueOf(880), "Salary 2", LocalDateTime.now(), TransactionType.INCOME, null, c8, u8);
-	        Transaction t19 = new Transaction(null, BigDecimal.valueOf(990), "Stocks 2", LocalDateTime.now(), TransactionType.INCOME, null, c9, u9);
-	        Transaction t20 = new Transaction(null, BigDecimal.valueOf(1000), "Bonus 2", LocalDateTime.now(), TransactionType.INCOME, null, c10, u10);
+	       Transaction t3 = new Transaction(null, BigDecimal.valueOf(200), "Uber U2", LocalDateTime.now(), TransactionType.EXPENSE, null, c2, u2);
+	       Transaction t4 = new Transaction(null, BigDecimal.valueOf(600), "Salary U2", LocalDateTime.now(), TransactionType.INCOME, null, c2, u2);
+
+	       Transaction t5 = new Transaction(null, BigDecimal.valueOf(300), "Doctor U3", LocalDateTime.now(), TransactionType.EXPENSE, null, c3, u3);
+	       Transaction t6 = new Transaction(null, BigDecimal.valueOf(700), "Salary U3", LocalDateTime.now(), TransactionType.INCOME, null, c3, u3);
+
+	       Transaction t7 = new Transaction(null, BigDecimal.valueOf(400), "Course U4", LocalDateTime.now(), TransactionType.EXPENSE, null, c4, u4);
+	       Transaction t8 = new Transaction(null, BigDecimal.valueOf(800), "Salary U4", LocalDateTime.now(), TransactionType.INCOME, null, c4, u4);
+
+	       Transaction t9 = new Transaction(null, BigDecimal.valueOf(500), "Cinema U5", LocalDateTime.now(), TransactionType.EXPENSE, null, c5, u5);
+	       Transaction t10 = new Transaction(null, BigDecimal.valueOf(900), "Salary U5", LocalDateTime.now(), TransactionType.INCOME, null, c5, u5);
+
+	       Transaction t11 = new Transaction(null, BigDecimal.valueOf(600), "Rent U6", LocalDateTime.now(), TransactionType.EXPENSE, null, c6, u6);
+	       Transaction t12 = new Transaction(null, BigDecimal.valueOf(1000), "Salary U6", LocalDateTime.now(), TransactionType.INCOME, null, c6, u6);
+
+	       Transaction t13 = new Transaction(null, BigDecimal.valueOf(700), "Clothes U7", LocalDateTime.now(), TransactionType.EXPENSE, null, c7, u7);
+	       Transaction t14 = new Transaction(null, BigDecimal.valueOf(1100), "Salary U7", LocalDateTime.now(), TransactionType.INCOME, null, c7, u7);
+
+	       Transaction t15 = new Transaction(null, BigDecimal.valueOf(800), "Food U8", LocalDateTime.now(), TransactionType.EXPENSE, null, c8, u8);
+	       Transaction t16 = new Transaction(null, BigDecimal.valueOf(1200), "Salary U8", LocalDateTime.now(), TransactionType.INCOME, null, c8, u8);
+
+	       Transaction t17 = new Transaction(null, BigDecimal.valueOf(900), "Uber U9", LocalDateTime.now(), TransactionType.EXPENSE, null, c9, u9);
+	       Transaction t18 = new Transaction(null, BigDecimal.valueOf(1300), "Salary U9", LocalDateTime.now(), TransactionType.INCOME, null, c9, u9);
+
+	       Transaction t19 = new Transaction(null, BigDecimal.valueOf(1000), "Market U10", LocalDateTime.now(), TransactionType.EXPENSE, null, c10, u10);
+	       Transaction t20 = new Transaction(null, BigDecimal.valueOf(1400), "Salary U10", LocalDateTime.now(), TransactionType.INCOME, null, c10, u10);
 
 	        transactionRepository.saveAll(List.of(
 	                t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,
