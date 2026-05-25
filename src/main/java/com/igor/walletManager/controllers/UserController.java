@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,26 +29,31 @@ public class UserController {
 	
 	private final UserService service;
 	
+	@PreAuthorize("@userSecurity.isOwnerOrAdmin(#id)")
 	@GetMapping("/{id}")
 	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
 		return ResponseEntity.ok(service.findById(id));
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<UserResponseDTO>> findAll(){
 		return ResponseEntity.ok(service.findAll());
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody UserCreateDTO dto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
 	}
 	
+	@PreAuthorize("@userSecurity.isOwnerOrAdmin(#id)")
 	@PutMapping("/{id}")
 	public ResponseEntity<UserResponseDTO> update(@PathVariable Long id ,@Valid @RequestBody UserUpdateDTO dto ){
 		return ResponseEntity.ok(service.update(id, dto));
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PatchMapping("/{id}/toggle")
 	public ResponseEntity<Void> toggleSoftDelete(@PathVariable Long id){
 		service.toggleSoftDelete(id);
