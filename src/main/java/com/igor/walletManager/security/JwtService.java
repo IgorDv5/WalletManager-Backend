@@ -19,9 +19,10 @@ public class JwtService {
 	);
 	
 	
-	public String generateToken(String email, String role) {
+	public String generateToken(Long id,String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("id", id)
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1h
