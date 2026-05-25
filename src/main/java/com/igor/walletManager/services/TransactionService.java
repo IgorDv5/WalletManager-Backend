@@ -16,11 +16,12 @@ import com.igor.walletManager.entity.Category;
 import com.igor.walletManager.entity.Transaction;
 import com.igor.walletManager.entity.User;
 import com.igor.walletManager.entity.enums.TransactionType;
+import com.igor.walletManager.entity.enums.UserRole;
 import com.igor.walletManager.exceptions.custom.ResourceNotFoundException;
 import com.igor.walletManager.mappers.TransactionMapper;
 import com.igor.walletManager.repositories.CategoryRepository;
 import com.igor.walletManager.repositories.TransactionRepository;
-import com.igor.walletManager.repositories.UserRepository;
+import com.igor.walletManager.services.security.SecurityService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class TransactionService {
 
 	private final TransactionRepository transactionRepository;
 	private final CategoryRepository categoryRepository;
-	private final UserRepository userRepository;
 	private final TransactionMapper mapper;
+	private final SecurityService securityService;
 
 	public TransactionResponseDTO findById(Long id) {
 		Transaction transaction = findEntityById(id);
@@ -40,18 +41,27 @@ public class TransactionService {
 	}
 
 	public List<TransactionResponseDTO> findAll() {
-		return transactionRepository.findAll().stream().map(mapper::toDTO).toList();
+
+		User user = securityService.authenticated();
+
+		if (user.getRole() == UserRole.ADMIN) {
+			return transactionRepository.findAll().stream().map(mapper::toDTO).toList();
+		}
+
+		return transactionRepository.findByUserId(user.getId()).stream().map(mapper::toDTO).toList();
 	}
 
 	@Transactional
 	public TransactionResponseDTO create(TransactionCreateDTO dto) {
+		
+		User user = securityService.authenticated();
 		Transaction transaction = mapper.toEntity(dto);
-		Category category = findCategoryById(dto.categoryId());
+		  Category category = categoryRepository
+		            .findByIdAndUserId(dto.categoryId(), user.getId())
+		            .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-		User user = findUserById(dto.userId());
-
-		transaction.setCategory(category);
 		transaction.setUser(user);
+		transaction.setCategory(category);
 
 		if (dto.date() == null) {
 			transaction.setDate(LocalDateTime.now());
@@ -63,8 +73,11 @@ public class TransactionService {
 
 	@Transactional
 	public TransactionResponseDTO update(Long id, TransactionUpdateDTO dto) {
+		User user = securityService.authenticated();
 		Transaction transaction = findEntityById(id);
-		Category category = findCategoryById(dto.categoryId());
+		  Category category = categoryRepository
+		            .findByIdAndUserId(dto.categoryId(), user.getId())
+		            .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
 		transaction.setAmount(dto.amount());
 		transaction.setDescription(dto.description());
@@ -88,36 +101,29 @@ public class TransactionService {
 
 		transactionRepository.save(transaction);
 	}
-	
 
-	public TransactionSummaryDTO getSummary(Long userId, LocalDate start, LocalDate end) {
+	public TransactionSummaryDTO getSummary(LocalDate start, LocalDate end) {
 
-	    LocalDateTime startDateTime = start.atStartOfDay();
-	    LocalDateTime endDateTime = end.atTime(LocalTime.MAX);
+		User user = securityService.authenticated();
 
-	    List<Transaction> transactions =
-	            transactionRepository.findByUserIdAndDateBetweenAndDeletedAtIsNull(
-	                    userId,
-	                    startDateTime,
-	                    endDateTime
-	            );
+		LocalDateTime startDateTime = start.atStartOfDay();
+		LocalDateTime endDateTime = end.atTime(LocalTime.MAX);
 
-	    BigDecimal income = BigDecimal.ZERO;
-	    BigDecimal expense = BigDecimal.ZERO;
+		List<Transaction> transactions = transactionRepository
+				.findByUserIdAndDateBetweenAndDeletedAtIsNull(user.getId(), startDateTime, endDateTime);
 
-	    for (Transaction t : transactions) {
-	        if (t.getType() == TransactionType.INCOME) {
-	            income = income.add(t.getAmount());
-	        } else {
-	            expense = expense.add(t.getAmount());
-	        }
-	    }
+		BigDecimal income = BigDecimal.ZERO;
+		BigDecimal expense = BigDecimal.ZERO;
 
-	    return new TransactionSummaryDTO(
-	            income,
-	            expense,
-	            income.subtract(expense)
-	    );
+		for (Transaction t : transactions) {
+			if (t.getType() == TransactionType.INCOME) {
+				income = income.add(t.getAmount());
+			} else {
+				expense = expense.add(t.getAmount());
+			}
+		}
+
+		return new TransactionSummaryDTO(income, expense, income.subtract(expense));
 	}
 
 	// *****************
@@ -131,16 +137,4 @@ public class TransactionService {
 		return transaction;
 	}
 
-	private Category findCategoryById(Long id) {
-		Category category = categoryRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
-
-		return category;
-	}
-
-	private User findUserById(Long id) {
-		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User Nao Encontrado"));
-
-		return user;
-	}
 }

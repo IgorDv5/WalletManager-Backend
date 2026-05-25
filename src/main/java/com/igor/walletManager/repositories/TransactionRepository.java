@@ -17,4 +17,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 	        LocalDateTime end
 	);
 	
+	List<Transaction> findByUserId(Long userId);
+	
 }
