@@ -3,11 +3,12 @@ package com.igor.walletManager.services;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.igor.walletManager.dtos.users.UserCreateDTO;
-import com.igor.walletManager.dtos.users.UserUpdateDTO;
 import com.igor.walletManager.dtos.users.UserResponseDTO;
+import com.igor.walletManager.dtos.users.UserUpdateDTO;
 import com.igor.walletManager.entity.User;
 import com.igor.walletManager.exceptions.custom.ConflictException;
 import com.igor.walletManager.exceptions.custom.ResourceNotFoundException;
@@ -22,6 +23,7 @@ public class UserService {
 
 	private final UserRepository repository;
 	private final UserMapper mapper;
+	private final PasswordEncoder encoder;
 
 	public UserResponseDTO findById(Long id) {
 		User user = findEntityById(id);
@@ -34,6 +36,7 @@ public class UserService {
 
 	public UserResponseDTO create(UserCreateDTO dto) {
 		User user = mapper.toEntity(dto);
+		user.setPassword(encoder.encode(dto.password()));
 		User userCreated = repository.save(user);
 		return mapper.toDTO(userCreated);
 	}
