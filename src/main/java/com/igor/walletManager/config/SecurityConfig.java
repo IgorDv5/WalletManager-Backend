@@ -12,8 +12,6 @@ import com.igor.walletManager.security.JwtFilter;
 
 import lombok.RequiredArgsConstructor;
 
-
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

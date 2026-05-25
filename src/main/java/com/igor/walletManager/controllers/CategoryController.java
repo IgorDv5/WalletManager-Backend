@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class CategoryController {
 
 	private final CategoryService service;
 	
+	@PreAuthorize("hasRole('ADMIN') or @categorySecurity.isOwner(#id)")
 	@GetMapping("/{id}")
 	public ResponseEntity<CategoryResponseDTO> findById(@PathVariable Long id){
 		return ResponseEntity.ok(service.findById(id));
@@ -42,11 +44,13 @@ public class CategoryController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
 	}
 	
+	@PreAuthorize("hasRole('ADMIN') or @categorySecurity.isOwner(#id)")
 	@PutMapping("/{id}")
 	public ResponseEntity<CategoryResponseDTO> update(@PathVariable Long id , @Valid @RequestBody CategoryRequestDTO dto){
 		return ResponseEntity.ok(service.update(id, dto));
 	}
 	
+	@PreAuthorize("hasRole('ADMIN') or @categorySecurity.isOwner(#id)")
 	@DeleteMapping("/{id}")	
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.delete(id);

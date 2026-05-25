@@ -1,5 +1,6 @@
 package com.igor.walletManager.services.security;
 
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import com.igor.walletManager.entity.User;
 
 @Service
 public class SecurityService {
+	
 	
 	public User authenticated() {
 
@@ -20,5 +22,6 @@ public class SecurityService {
 
 	    return (User) authentication.getPrincipal();
 	}
+	
 
 }
