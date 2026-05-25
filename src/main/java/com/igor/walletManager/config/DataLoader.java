@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.igor.walletManager.entity.Category;
@@ -22,23 +23,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
 
-	public final UserRepository userRepository;
+	private final UserRepository userRepository;
 	private final CategoryRepository categoryRepository;
 	private final TransactionRepository transactionRepository;
+	private final PasswordEncoder encoder;
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		 User u1 = new User(null, "User 1", "user1@mail.com", "123", null, UserRole.ADMIN, null);
-	        User u2 = new User(null, "User 2", "user2@mail.com", "123", null, UserRole.USER, null);
-	        User u3 = new User(null, "User 3", "user3@mail.com", "123", null, UserRole.USER, null);
-	        User u4 = new User(null, "User 4", "user4@mail.com", "123", null, UserRole.ADMIN, null);
-	        User u5 = new User(null, "User 5", "user5@mail.com", "123", null, UserRole.USER, null);
-	        User u6 = new User(null, "User 6", "user6@mail.com", "123", null, UserRole.USER, null);
-	        User u7 = new User(null, "User 7", "user7@mail.com", "123", null, UserRole.USER, null);
-	        User u8 = new User(null, "User 8", "user8@mail.com", "123", null, UserRole.ADMIN, null);
-	        User u9 = new User(null, "User 9", "user9@mail.com", "123", null, UserRole.USER, null);
-	        User u10 = new User(null, "User 10", "user10@mail.com", "123", null, UserRole.ADMIN, null);
+		 User u1 = new User(null, "User 1", "user1@mail.com", encoder.encode("123") , null, UserRole.ADMIN, null);
+	        User u2 = new User(null, "User 2", "user2@mail.com", encoder.encode("123"), null, UserRole.USER, null);
+	        User u3 = new User(null, "User 3", "user3@mail.com", encoder.encode("123"), null, UserRole.USER, null);
+	        User u4 = new User(null, "User 4", "user4@mail.com", encoder.encode("123"), null, UserRole.ADMIN, null);
+	        User u5 = new User(null, "User 5", "user5@mail.com", encoder.encode("123"), null, UserRole.USER, null);
+	        User u6 = new User(null, "User 6", "user6@mail.com", encoder.encode("123"), null, UserRole.USER, null);
+	        User u7 = new User(null, "User 7", "user7@mail.com", encoder.encode("123"), null, UserRole.USER, null);
+	        User u8 = new User(null, "User 8", "user8@mail.com", encoder.encode("123"), null, UserRole.ADMIN, null);
+	        User u9 = new User(null, "User 9", "user9@mail.com", encoder.encode("123"), null, UserRole.USER, null);
+	        User u10 = new User(null, "User 10", "user10@mail.com", encoder.encode("123"), null, UserRole.ADMIN, null);
 
 	        userRepository.saveAll(List.of(u1,u2,u3,u4,u5,u6,u7,u8,u9,u10));
 	        
