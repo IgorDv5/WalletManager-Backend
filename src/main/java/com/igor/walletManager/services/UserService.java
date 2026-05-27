@@ -36,6 +36,10 @@ public class UserService {
 
 	public UserResponseDTO create(UserCreateDTO dto) {
 		User user = mapper.toEntity(dto);
+
+		if (repository.existsByEmailIgnoreCase(dto.email())) {
+			throw new ConflictException("Email Já Cadastrado no Sistema");
+		}
 		user.setPassword(encoder.encode(dto.password()));
 		User userCreated = repository.save(user);
 		return mapper.toDTO(userCreated);
