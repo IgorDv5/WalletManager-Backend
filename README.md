@@ -2,11 +2,10 @@
 
 # Wallet Manager Backend
 
-![Java](https://img.shields.io/badge/Java-21-orange)
+![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-green)
 ![JWT](https://img.shields.io/badge/Auth-JWT-blue)
 ![Database](https://img.shields.io/badge/H2-Database-lightgrey)
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
 
 API REST desenvolvida com Spring Boot para gerenciamento financeiro pessoal.
 
@@ -73,7 +72,6 @@ Sistema backend para controle financeiro pessoal com autenticação, categorias 
 
 ---
 
-
 # Endpoints principais
 
 ## Auth
@@ -102,11 +100,26 @@ Sistema backend para controle financeiro pessoal com autenticação, categorias 
 
 ---
 
-# Melhorias futuras
+# Como executar o projeto
 
-- Migração para PostgreSQL
-- Swagger / OpenAPI
-- Docker
-- Deploy em nuvem (Render / Railway)
-- Testes automatizados
-- Frontend React
+## Pré-requisitos
+- Java 17 instalado
+---
+
+## Clonar o repositório
+
+```bash
+git clone https://github.com/IgorDv5/WalletManager-Backend.git
+```
+## Rodar o projeto
+
+### Windows
+```bash
+mvnw.cmd spring-boot:run
+```
+
+### Linux / Mac
+```bash
+./mvnw spring-boot:run
+```
+
