@@ -1,5 +1,8 @@
 package com.igor.walletManager.services.security;
 
+import com.igor.walletManager.dtos.users.UserCreateDTO;
+import com.igor.walletManager.dtos.users.UserResponseDTO;
+import com.igor.walletManager.mappers.UserMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ public class AuthService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
+    private final UserMapper mapper;
     
     public LoginResponseDTO login(LoginRequestDTO dto) {
 
@@ -37,5 +41,12 @@ public class AuthService {
 
         return new LoginResponseDTO(token);
     }
+
+    public UserResponseDTO register(UserCreateDTO dto){
+        User user = mapper.toEntity(dto);
+        User userCreated = repository.save(user);
+        return mapper.toDTO(userCreated);
+    }
+
 	
 } 
